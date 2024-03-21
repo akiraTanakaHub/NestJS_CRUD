@@ -32,9 +32,14 @@ export class CatsController {
     return cats.map(cat => cat.breed);
   }
 
+  @Get("info")
+  async getInfo(): Promise<any> {
+    return fetch('https://jsonplaceholder.typicode.com/todos').then(response => response.json());
+  }
+
   @Get(":id")
-  findAll(@Param() params: any): Cat {
-   let requestedCat: Cat = cats.find(cat => cat.id == params.id); 
+  findAll(@Param("id") id: string): Cat {
+   let requestedCat: Cat = cats.find(cat => cat.id === +id); 
    if(requestedCat !== undefined) return requestedCat;
    throw new BadRequestException('Cant find cat with such id'); 
   }  
